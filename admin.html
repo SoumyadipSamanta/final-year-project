@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard - NextGen QR</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+/* BACKGROUND ANIMATION */
+body {
+    margin: 0;
+    font-family: Arial;
+    color: white;
+    background: linear-gradient(-45deg, #1f1c2c, #928dab, #1f1c2c);
+    background-size: 400% 400%;
+    animation: bg 10s ease infinite;
+}
+
+@keyframes bg {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* BUTTON */
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+/* USER ITEM */
+.user-item {
+    background: white;
+    color: black;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+}
+
+/* VIDEO */
+video {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* REGISTER BOX */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.modal input {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2>Admin Panel</h2>
+
+    <p id="adminName">Welcome Admin</p>
+
+    <button onclick="loadUsers()">Users</button>
+    <button onclick="loadQR()">QR Codes</button>
+
+    <!-- NEW REGISTER BUTTON -->
+    <button onclick="openRegister()">Register Admin</button>
+
+    <button onclick="logout()">Logout</button>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- VIDEO HEADER -->
+    <video autoplay muted loop>
+        <source src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-1578/1080p.mp4">
+    </video>
+
+    <div id="content">Loading...</div>
+
+</div>
+
+</div>
+
+<!-- ADMIN REGISTER MODAL -->
+<div class="modal" id="registerModal">
+
+    <div class="modal-content">
+
+        <h3>Register Admin</h3>
+
+        <input type="text" id="newAdminUser" placeholder="Username">
+        <input type="password" id="newAdminPass" placeholder="Password">
+
+        <button onclick="registerAdmin()">Create</button>
+        <button onclick="closeRegister()">Close</button>
+
+        <p id="regMsg"></p>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ================= SECURITY CHECK ================= */
+window.onload = function () {
+
+    const role = sessionStorage.getItem("role");
+    const username = sessionStorage.getItem("username");
+
+    if (!role || role !== "admin") {
+        window.location.href = "login.html";
+        return;
+    }
+
+    document.getElementById("adminName").innerText = "Welcome " + username;
+
+    loadUsers();
+};
+
+/* ================= LOAD USERS ================= */
+async function loadUsers() {
+
+    document.getElementById("content").innerHTML = "Loading users...";
+
+    const res = await fetch("http://localhost:5000/admin/users");
+    const data = await res.json();
+
+    let html = "<h2>All Users</h2>";
+
+    data.forEach(u => {
+        html += `
+        <div class="user-item">
+            👤 ${u.username} (${u.role})
+        </div>`;
+    });
+
+    document.getElementById("content").innerHTML = html;
+}
+
+/* ================= LOAD QR ================= */
+async function loadQR() {
+
+    document.getElementById("content").innerHTML = "Loading QR codes...";
+
+    const res = await fetch("http://localhost:5000/admin/qrcodes");
+    const data = await res.json();
+
+    let html = "<h2>All QR Codes</h2>";
+
+    data.forEach(q => {
+        html += `
+        <div class="card">
+            <p><b>User ID:</b> ${q.userId}</p>
+            <p>${q.data}</p>
+        </div>`;
+    });
+
+    document.getElementById("content").innerHTML = html;
+}
+
+/* ================= REGISTER MODAL ================= */
+function openRegister() {
+    document.getElementById("registerModal").style.display = "flex";
+}
+
+function closeRegister() {
+    document.getElementById("registerModal").style.display = "none";
+}
+
+/* ================= ADMIN REGISTER API ================= */
+async function registerAdmin() {
+
+    const username = document.getElementById("newAdminUser").value;
+    const password = document.getElementById("newAdminPass").value;
+
+    const res = await fetch("http://localhost:5000/admin/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    document.getElementById("regMsg").innerText = data.message;
+
+    if (data.success) {
+        setTimeout(() => {
+            closeRegister();
+        }, 1000);
+    }
+}
+
+/* ================= LOGOUT ================= */
+function logout() {
+    sessionStorage.clear();
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>

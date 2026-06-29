@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1782531841545,
+    "username": "soumyadip",
+    "password": "$2b$10$xpharZUE3TAD1LPk3OT1cufVBGLl5bWf7pm3Tsew06V42.NOBtmdS"
+  },
+  {
+    "id": 1782532823003,
+    "username": "Soumya dip",
+    "password": "$2b$10$SzqekI9yJprZlC5tOrf9A.hKJWnOExxOLGWn8sSV7x6FqsbOUIe8K"
+  },
+  {
+    "id": 1782540876685,
+    "username": "soumyadip samanta",
+    "password": "$2b$10$u1P5oDO3xkUd07DKMX7t5uuzyA7lPjIkbefaG.o8XtH96pEYyzQse"
+  },
+  {
+    "id": 1782540900292,
+    "username": "sou",
+    "password": "$2b$10$nnbcLZ.qKlyBqDskaxAUzetp6DWXMqq8l4XdJ6vkESy8tA3wv./vO"
+  },
+  {
+    "id": 1782543770824,
+    "username": "meheboob",
+    "password": "$2b$10$ZWSGBIxwLxt57JU8qK/7hOqtM8OZsk5cCBxzz9d4o7f26p0LQ6maq"
+  },
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "$2b$10$4rVxXFzzrrJ9iTJvBeCYK.qbJGJpki3/zWafRTRLvBK3oMEZT7v5K",
+    "role": "admin"
+  },
+  {
+    "id": 1782556439443,
+    "username": "soumya",
+    "password": "$2b$10$PQlkEBtTG2akKDWhD6Xl7OjZcno5Gt4KZV62x0ueNNosE2PtQ7yNa",
+    "role": "user"
+  },
+  {
+    "id": 1782639098118,
+    "username": "new",
+    "password": "$2b$10$POB2aDYXyf/dk9.RSWp/qusr64ODci7Mn10sy1oNqqPuI0DWuoFBu",
+    "role": "user"
+  }
+]

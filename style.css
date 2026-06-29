@@ -1,0 +1,292 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+/* ==========================
+   LAYOUT
+========================== */
+
+.container{
+    display:flex;
+}
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+.sidebar{
+    width:250px;
+    height:100vh;
+    background:#111827;
+    color:#fff;
+    position:fixed;
+    padding:20px;
+    transition:.3s;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+#welcomeUser{
+    text-align:center;
+    margin-bottom:20px;
+    color:#d1d5db;
+    font-size:15px;
+    line-height:22px;
+}
+
+.sidebar button{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:8px;
+    background:#1f2937;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.sidebar button:hover{
+    background:#374151;
+}
+
+/* Logout Button */
+
+.sidebar button:last-child{
+    background:#dc2626;
+}
+
+.sidebar button:last-child:hover{
+    background:#b91c1c;
+}
+
+/* ==========================
+   MAIN
+========================== */
+
+.main{
+    width:100%;
+    margin-left:250px;
+    padding:20px;
+}
+
+/* ==========================
+   TOPBAR
+========================== */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.menu-btn{
+    display:none;
+    border:none;
+    background:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* ==========================
+   SECTIONS
+========================== */
+
+.section{
+    display:none;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.section.active{
+    display:block;
+}
+
+.section h2{
+    margin-bottom:15px;
+}
+
+/* ==========================
+   FORM
+========================== */
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin:12px 0;
+    outline:none;
+}
+
+button{
+    padding:12px 18px;
+    border:none;
+    border-radius:8px;
+    background:#4f46e5;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#3730a3;
+}
+
+/* ==========================
+   QR RESULT
+========================== */
+
+#qrResult{
+    margin-top:20px;
+    text-align:center;
+}
+
+#qrResult img,
+#qrResult canvas{
+    margin-top:15px;
+    border:8px solid white;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+    border-radius:10px;
+}
+
+/* ==========================
+   TOTAL
+========================== */
+
+#totalCount{
+    font-size:20px;
+    font-weight:bold;
+    color:#4f46e5;
+    margin-top:15px;
+}
+
+/* ==========================
+   HISTORY
+========================== */
+
+#historyList{
+    list-style:none;
+    padding:0;
+}
+
+#historyList li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#f3f4f6;
+    margin-bottom:10px;
+    padding:12px;
+    border-radius:8px;
+    word-break:break-word;
+}
+
+.history-text{
+    flex:1;
+}
+
+.delete-btn{
+    background:#dc2626;
+    padding:8px 14px;
+    margin-left:10px;
+    border:none;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+/* ==========================
+   SETTINGS
+========================== */
+
+#settings button{
+    background:#dc2626;
+}
+
+#settings button:hover{
+    background:#b91c1c;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+.sidebar{
+    left:-260px;
+    z-index:999;
+}
+
+.sidebar.show{
+    left:0;
+}
+
+.main{
+    margin-left:0;
+}
+
+.menu-btn{
+    display:block;
+}
+
+.topbar h3{
+    font-size:18px;
+}
+
+}
+#historyList img{
+
+    margin-top:10px;
+
+    width:120px;
+
+    border-radius:8px;
+
+    border:2px solid #ddd;
+
+}
+
+.delete-btn{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 15px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.delete-btn:hover{
+
+    background:#b91c1c;
+
+}

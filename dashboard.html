@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>NextGen QR Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+<style>
+
+/* BACKGROUND */
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#1e3c72,#2a5298);
+}
+
+/* CONTAINER */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 15px;
+}
+
+.sidebar button {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 20px;
+    color: white;
+}
+
+/* SECTION */
+.section {
+    display: none;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.section.active {
+    display: block;
+}
+
+/* INPUT */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: none;
+}
+
+/* BUTTON */
+button {
+    background: #00c6ff;
+    color: white;
+    border: none;
+}
+
+/* QR CARD */
+.qr-card {
+    background: white;
+    color: black;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>NextGen QR</h2>
+
+    <p id="welcomeUser"></p>
+
+    <button onclick="show('create')">Create QR</button>
+    <button onclick="show('history')">History</button>
+    <button onclick="clearAll()">Clear All</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- CREATE -->
+<div id="create" class="section active">
+    <h2>Create QR Code</h2>
+
+    <select id="type">
+        <option value="text">Text</option>
+        <option value="link">Link</option>
+    </select>
+
+    <input type="text" id="input" placeholder="Enter text or link">
+
+    <button onclick="generateQR()">Generate</button>
+
+    <div id="qrBox"></div>
+</div>
+
+<!-- HISTORY -->
+<div id="history" class="section">
+    <h2>QR History</h2>
+    <div id="historyList"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* ================= LOGIN CHECK ================= */
+window.onload = function () {
+    const user = sessionStorage.getItem("username");
+
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("welcomeUser").innerText = "Welcome " + user;
+    }
+};
+
+/* ================= NAVIGATION ================= */
+function show(id) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    if (id === "history") loadHistory();
+}
+
+/* ================= QR GENERATE ================= */
+function generateQR() {
+    const text = document.getElementById("input").value;
+
+    if (!text) return alert("Enter value");
+
+    document.getElementById("qrBox").innerHTML = "";
+
+    new QRCode(document.getElementById("qrBox"), {
+        text: text,
+        width: 150,
+        height: 150
+    });
+
+    saveHistory(text);
+}
+
+/* ================= HISTORY ================= */
+function saveHistory(text) {
+    let data = JSON.parse(localStorage.getItem("qrHistory")) || [];
+    data.push({ id: Date.now(), text });
+    localStorage.setItem("qrHistory", JSON.stringify(data));
+}
+
+function loadHistory() {
+    let list = document.getElementById("historyList");
+    list.innerHTML = "";
+
+    let data = JSON.parse(localStorage.getItem("qrHistory")) || [];
+
+    data.forEach(item => {
+        let div = document.createElement("div");
+        div.className = "qr-card";
+
+        div.innerHTML = `
+            <p>${item.text}</p>
+            <button onclick="deleteQR(${item.id})">Delete</button>
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+function deleteQR(id) {
+    let data = JSON.parse(localStorage.getItem("qrHistory")) || [];
+    data = data.filter(item => item.id !== id);
+    localStorage.setItem("qrHistory", JSON.stringify(data));
+    loadHistory();
+}
+
+function clearAll() {
+    localStorage.removeItem("qrHistory");
+    loadHistory();
+}
+
+/* ================= LOGOUT ================= */
+function logout() {
+    sessionStorage.clear();
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>

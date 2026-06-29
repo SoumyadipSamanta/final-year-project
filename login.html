@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NextGen QR - Login</title>
+
+<link rel="stylesheet" href="login.css">
+
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/159/159469.png">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
+        <h1>NextGen QR System</h1>
+
+        <img src="https://raw.githubusercontent.com/sylnsfar/qrcode/master/example/zootopia_qrcode.gif" alt="qr">
+
+        <h1>Secure QR Code</h1>
+
+        <p>ONCE A SPY ALWAYS A SPY</p>
+
+        <img src="https://i.redd.it/a-qr-generator-for-animated-interactive-and-static-codes-v0-bnii41n817xe1.gif?width=686&auto=webp&s=f50af399f6ecdf6e381f92519212d88abddab55b" alt="QR">
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+
+        <!-- TABS -->
+        <div class="tabs">
+
+            <button id="userTab" class="active" onclick="showUser()">User Login</button>
+
+            <button id="adminTab" onclick="showAdmin()">Admin Login</button>
+
+        </div>
+
+        <!-- USER LOGIN -->
+        <div id="userLogin" class="box">
+
+            <h2>User Login</h2>
+            <div id="userMsg" class="msg"></div>
+
+            <input type="text" id="userName" placeholder="Enter Username">
+            <input type="password" id="userPass" placeholder="Enter Password">
+
+            <button onclick="userLogin()">Login</button>
+
+            <p class="switch">
+                Don't have an account?
+                <span onclick="showRegister()">Register</span>
+            </p>
+
+        </div>
+
+        <!-- ADMIN LOGIN -->
+        <div id="adminLogin" class="box hidden">
+
+            <h2>Admin Login</h2>
+            <div id="adminMsg" class="msg"></div>
+
+            <input type="text" id="adminName" placeholder="Admin Username">
+            <input type="password" id="adminPass" placeholder="Password">
+
+            <button onclick="adminLogin()">Login</button>
+
+        </div>
+
+        <!-- REGISTER -->
+        <div id="registerBox" class="box hidden">
+
+            <h2>Create Account</h2>
+            <div id="regMsg" class="msg"></div>
+
+            <input type="text" id="regUser" placeholder="Username">
+            <input type="password" id="regPass" placeholder="Password">
+            <input type="password" id="regConfirm" placeholder="Confirm Password">
+
+            <button onclick="register()">Register</button>
+
+            <p class="switch">
+                Already have account?
+                <span onclick="backLogin()">Login</span>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="login.js"></script>
+
+<script>
+/* ================= AUTO PROTECTION ================= */
+window.onload = function () {
+
+    const role = sessionStorage.getItem("role");
+
+    if (role === "user") {
+        window.location.href = "/dashboard";
+    }
+
+    if (role === "admin") {
+        window.location.href = "/admin";
+    }
+};
+</script>
+
+</body>
+</html>
